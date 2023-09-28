@@ -9,6 +9,7 @@ from schedules.models import Schedule
 from .models import Comment
 
 
+# 댓글 작성
 class NewComment(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -29,6 +30,7 @@ class NewComment(APIView):
             return Response(serializer.errors)
 
 
+# 특정 일정 댓글 조회
 class GetComments(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -69,7 +71,7 @@ class Comments(APIView):
         except Comment.DoesNotExist:
             raise NotFound("존재하지 않는 댓글입니다.")
 
-    def delete(self, request, comment_id):
+    def delete(self, request, comment_id):  # 댓글 삭제
         comment = self.get_comment(comment_id)
 
         if (comment.author != request.user) and (
@@ -80,7 +82,7 @@ class Comments(APIView):
         comment.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-    def put(self, request, comment_id):
+    def put(self, request, comment_id):  # 댓글 수정
         comment = self.get_comment(comment_id)
 
         serializer = CommentSerializer(

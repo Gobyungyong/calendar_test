@@ -12,6 +12,7 @@ from teams.serializers import TeamSerializer
 from teams.models import Team
 
 
+# 회원가입
 class Signup(APIView):
     def post(self, request):
         user = SignUpUserSerializer(data=request.data)
@@ -68,6 +69,7 @@ class Signup(APIView):
             return Response(user.errors)
 
 
+# 아이디 중복체크
 class CheckUsername(APIView):
     def post(self, request):
         username = request.data["username"]
@@ -91,7 +93,7 @@ class UserInfo(APIView):
         except User.DoesNotExist:
             raise NotFound("존재하지 않는 유저입니다.")
 
-    def get(self, request):
+    def get(self, request):  # 회원정보 조회
         user = self.get_object(request.user)
 
         if user != request.user:
@@ -101,7 +103,7 @@ class UserInfo(APIView):
 
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-    def put(self, request):
+    def put(self, request):  # 회원정보 수정
         user = self.get_object(request.user)
 
         if user != request.user:
@@ -122,7 +124,7 @@ class UserDelete(APIView):
         except User.DoesNotExist:
             raise NotFound("존재하지 않는 유저입니다.")
 
-    def post(self, request):
+    def post(self, request):  # 회원탈퇴
         user = self.get_object(request.user)
 
         if user != request.user:

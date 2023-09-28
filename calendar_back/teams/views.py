@@ -25,7 +25,7 @@ class NewTeam(APIView):
         except:
             raise NotFound("존재하지 않는 팀입니다.")
 
-    def post(self, request):
+    def post(self, request):  # 팀 생성
         team_serializer = TeamSerializer(data=request.data["team"])
 
         if request.data["team"]["teamname"] == "My":
@@ -73,7 +73,7 @@ class Teams(APIView):
         except User.DoesNotExist:
             raise NotFound("해당 사용자가 없습니다.")
 
-    def post(self, request, team_id):
+    def post(self, request, team_id):  # 팀 탈퇴
         team = self.get_team(team_id)
         user = self.get_user(request.user)
 
@@ -86,7 +86,7 @@ class Teams(APIView):
 
         return Response(status=status.HTTP_200_OK)
 
-    def put(self, request, team_id):
+    def put(self, request, team_id):  # 팀정보 수정
         team = self.get_team(team_id)
 
         serializer = TeamSerializer(
@@ -107,7 +107,7 @@ class Teams(APIView):
         else:
             return Response(serializer.errors)
 
-    def delete(self, request, team_id):
+    def delete(self, request, team_id):  # 팀삭제
         team = self.get_team(team_id)
 
         if team.teamname == "My":
@@ -123,6 +123,7 @@ class Teams(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
+# 팀원 추가
 class AddMembers(APIView):
     permission_classes = [IsAuthenticated]
 

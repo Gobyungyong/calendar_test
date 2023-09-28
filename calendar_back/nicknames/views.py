@@ -18,7 +18,7 @@ class Nicknames(APIView):
         except:
             raise NotFound("존재하지 않는 팀입니다.")
 
-    def post(self, request, team_id):
+    def post(self, request, team_id):  # 닉네임 생성
         serializer = AddNicknameSerializer(data=request.data)
         team = self.get_team(team_id)
 
@@ -39,7 +39,7 @@ class Nicknames(APIView):
         else:
             return Response(serializer.errors)
 
-    def put(self, request, team_id):
+    def put(self, request, team_id):  # 닉네임 수정
         team = self.get_team(team_id)
         try:
             nickname = request.data["nickname"]

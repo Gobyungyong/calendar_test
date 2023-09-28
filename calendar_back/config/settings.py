@@ -100,6 +100,8 @@ WSGI_APPLICATION = "config.wsgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
+
+# 배포/개발 데이터베이스 분리
 if DEBUG:
     DATABASES = {
         "default": {
@@ -215,10 +217,11 @@ REST_FRAMEWORK = {
     ],
 }
 
+# DRF simple jwt config
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": datetime.timedelta(minutes=15),
-    "REFRESH_TOKEN_LIFETIME": datetime.timedelta(days=1),
-    "ROTATE_REFRESH_TOKENS": True,
-    "BLACKLIST_AFTER_ROTATION": True,
+    "ACCESS_TOKEN_LIFETIME": datetime.timedelta(minutes=15),  # access token 수명
+    "REFRESH_TOKEN_LIFETIME": datetime.timedelta(days=1),  # refresh token 수명
+    "ROTATE_REFRESH_TOKENS": True,  # access token 재발행 시 refresh token 재발행 여부
+    "BLACKLIST_AFTER_ROTATION": True,  # refresh token 재발행 시 기존 refresh token blacklist 추가 여부
     "SIGNING_KEY": get_env_variable("JWT_SECRET_KEY"),
 }
